@@ -25,9 +25,10 @@ class App extends Component {
     isLoggedIn: PropTypes.bool,
     logOut: PropTypes.func,
   };
+
   static defaultProps = {
     isLoggedIn: false,
-    logOut: () => {return;},
+    logOut: () => {},
   };
 
   componentDidMount() {
@@ -39,25 +40,23 @@ class App extends Component {
   }
 
   keydownEvent = (e) => {
-    if (e.ctrlKey && e.key === 'h'){
+    if (e.ctrlKey && e.key === 'h') {
       alert('Logging you out');
       this.props.logOut();
     }
   }
-  
+
   render() {
     const { isLoggedIn } = this.props;
     return (
       <div className="App">
-        <Notifications listNotifications={ listNotifications } />
+        <Notifications listNotifications={listNotifications} />
         <Header />
-        {isLoggedIn ? <CourseList listCourses={ listCourses } /> : <Login />}
+        {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
         <Footer />
       </div>
     );
   }
 }
-
-
 
 export default App;
