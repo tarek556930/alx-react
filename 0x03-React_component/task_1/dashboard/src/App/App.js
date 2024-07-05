@@ -8,46 +8,67 @@ import './App.css';
 import PropTypes from 'prop-types';
 import { getLatestNotification } from '../utils/utils';
 
-
 class App extends React.Component {
-	listCourses = [
-		{ id: 1, name: 'ES6', credit: 60 },
-		{ id: 2, name: 'Webpack', credit: 20 },
-		{ id: 3, name: 'React', credit: 40 },
-	];
+  constructor(props) {
+    super(props);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
 
-	listNotifications = [
-		{ id: 1, type: 'default', value: 'New course available' },
-		{ id: 2, type: 'urgent', value: 'New resume available' },
-		{ id: 3, type: 'urgent', html: getLatestNotification() },
-	];
+  listCourses = [
+    { id: 1, name: 'ES6', credit: 60 },
+    { id: 2, name: 'Webpack', credit: 20 },
+    { id: 3, name: 'React', credit: 40 },
+  ];
 
-	render() {
-		return (
-			<React.Fragment>
-				<div className='App'>
-					<div className='heading-section'>
-						<Notifications listNotifications={this.listNotifications} />
-						<Header />
-					</div>
-					{this.props.isLoggedIn ? (
-						<CourseList listCourses={this.listCourses} />
-					) : (
-						<Login />
-					)}
-					<Footer />
-				</div>
-			</React.Fragment>
-		);
-	}
+  listNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'urgent', value: 'New resume available' },
+    { id: 3, type: 'urgent', html: getLatestNotification() },
+  ];
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown(e) {
+    if (e.ctrlKey && e.key === 'h') {
+      alert('Logging you out');
+      this.props.logOut();
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <div className='App'>
+          <div className='heading-section'>
+            <Notifications listNotifications={this.listNotifications} />
+            <Header />
+          </div>
+          {this.props.isLoggedIn ? (
+            <CourseList listCourses={this.listCourses} />
+          ) : (
+            <Login />
+          )}
+          <Footer />
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 App.defaultProps = {
-	isLoggedIn: true,
+  isLoggedIn: false,
+  logOut: () => {},
 };
 
 App.propTypes = {
-	isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  logOut: PropTypes.func,
 };
 
 export default App;
