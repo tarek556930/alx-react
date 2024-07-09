@@ -14,6 +14,7 @@ describe("Course List Row component test", () => {
 
     expect(wrapper.find("tr").children()).toHaveLength(1);
     expect(wrapper.find("tr").childAt(0).html()).toEqual('<th colSpan="2">test</th>');
+    expect(wrapper.find("tr").prop("style")).toEqual({ backgroundColor: "#deb5b545" });
   });
 
   it("should render two cells when textSecondCell not null", () => {
@@ -22,5 +23,6 @@ describe("Course List Row component test", () => {
     expect(wrapper.find("tr").children()).toHaveLength(2);
     expect(wrapper.find("tr").childAt(0).html()).toEqual("<td>test</td>");
     expect(wrapper.find("tr").childAt(1).html()).toEqual("<td>test</td>");
+    expect(wrapper.find("tr").prop("style")).toEqual({ backgroundColor: "#f5f5f5ab" });
   });
 });
